@@ -1,0 +1,17 @@
+# Dependencies and generated files
+/node_modules/
+/dist/
+/.astro/
+
+# Local environment variables and secrets
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# Package manager debug logs
+npm-debug.log*
+pnpm-debug.log*
+
+# OS metadata
+.DS_Store
