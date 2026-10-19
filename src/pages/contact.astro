@@ -1,0 +1,18 @@
+---
+import { getEntry, render } from 'astro:content';
+import ContactDetails from '../components/ContactDetails.astro';
+import Layout from '../layouts/Layout.astro';
+import { reader } from '../lib/content';
+
+const contact = await getEntry('pages', 'contact');
+if (!contact) throw new Error('缺少页面内容：contact');
+
+const { Content } = await render(contact);
+const site = await reader.singletons.site.readOrThrow();
+---
+
+<Layout title={contact.data.title} description={contact.data.description} site={site}>
+  <h1>{contact.data.title}</h1>
+  <Content />
+  <ContactDetails contact={site.contact} />
+</Layout>

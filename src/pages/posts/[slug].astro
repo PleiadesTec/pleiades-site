@@ -1,24 +1,28 @@
 ---
-import { getCollection, getEntry, render } from 'astro:content';
+import { getEntry, render } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
+import { reader, getPosts } from '../../lib/content';
 
 export const prerender = true;
 
 const { slug } = Astro.params;
-if (!slug) throw new Error('Slug not found');
+if (!slug) throw new Error('缺少文章标识');
 const post = await getEntry('posts', slug);
 
-if (!post) throw new Error('No post found for this slug');
+if (!post) throw new Error(`文章不存在：${slug}`);
 const { Content } = await render(post);
+const site = await reader.singletons.site.readOrThrow();
+const date = post.data.publishedAt?.toISOString().slice(0, 10);
 
-// Generate static pages
 export async function getStaticPaths() {
-  const posts = await getCollection('posts');
+  const posts = await getPosts();
   return posts.map(post => ({ params: { slug: post.id } }));
 }
 ---
 
-<Layout title={post.data.title}>
+<Layout title={post.data.title} description={post.data.excerpt} site={site}>
   <h1>{post.data.title}</h1>
+  {date && <p><time datetime={date}>{date}</time></p>}
+  {post.data.cover && <img src={post.data.cover} alt={post.data.title} loading="lazy" />}
   <Content />
 </Layout>

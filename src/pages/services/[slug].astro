@@ -1,0 +1,30 @@
+---
+import { getEntry, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import { getServices, reader } from '../../lib/content';
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+  const services = await getServices();
+  return services.map(service => ({ params: { slug: service.id } }));
+}
+
+const { slug } = Astro.params;
+if (!slug) throw new Error('缺少业务 slug');
+const service = await getEntry('services', slug);
+if (!service) throw new Error(`缺少业务内容：${slug}`);
+
+const { Content } = await render(service);
+const site = await reader.singletons.site.readOrThrow();
+---
+
+<Layout title={service.data.title} description={service.data.summary} site={site}>
+  <h1>{service.data.title}</h1>
+  {service.data.summary && <p>{service.data.summary}</p>}
+  {service.data.cover && (
+    <img src={service.data.cover} alt={service.data.title} loading="lazy" />
+  )}
+  <Content />
+  <p><a href="/contact/">联系咨询</a></p>
+</Layout>

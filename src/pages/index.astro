@@ -1,35 +1,69 @@
 ---
-import { getCollection } from 'astro:content';
+import { getEntry } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
+import BannerCarousel from '../components/BannerCarousel.astro';
+import ContactDetails from '../components/ContactDetails.astro';
+import { reader, getPosts, getServices } from '../lib/content';
 
 export const prerender = true;
 
-const posts = await getCollection('posts');
+const [site, home, services, posts, about] = await Promise.all([
+  reader.singletons.site.readOrThrow(),
+  reader.singletons.home.readOrThrow(),
+  getServices(),
+  getPosts(),
+  getEntry('pages', 'about'),
+]);
+if (!about) throw new Error('缺少页面内容：about');
 ---
 
-<Layout title="Keystatic & Astro's Content Collections">
-  <div>
-    <h1>Keystatic ⚡️ + Astro 🚀</h1>
-    <p>
-      This homepage shows how to load data from Astro's content collections.
-    </p>
-    {
-      import.meta.env.DEV && (
-        <p>
-          <a href="/keystatic">Click here to visit the Admin UI</a>
-        </p>
-      )
-    }
-    <p>Select a post below to read it.</p>
-    <h2>Posts</h2>
-    <ul>
-      {
-        posts.map(post => (
+<Layout title={site.companyName} site={site}>
+  <h1>{site.companyName}</h1>
+  {home.intro && <p>{home.intro}</p>}
+  <BannerCarousel slides={home.heroSlides} />
+
+  <section aria-labelledby="services-heading">
+    <h2 id="services-heading">业务与服务</h2>
+    {services.length > 0 ? (
+      <ul>
+        {services.map(service => (
           <li>
-            <a href={`/posts/${post.id}`}>{post.data.title}</a>
+            <h3><a href={`/services/${service.id}/`}>{service.data.title}</a></h3>
+            {service.data.summary && <p>{service.data.summary}</p>}
           </li>
-        ))
-      }
-    </ul>
-  </div>
+        ))}
+      </ul>
+    ) : <p>暂无业务内容</p>}
+    <p><a href="/services/">查看全部业务</a></p>
+  </section>
+
+  <section aria-labelledby="about-heading">
+    <h2 id="about-heading">关于我们</h2>
+    {about.data.description && <p>{about.data.description}</p>}
+    <p><a href="/about/">了解公司</a></p>
+  </section>
+
+  <section aria-labelledby="posts-heading">
+    <h2 id="posts-heading">文章动态</h2>
+    {posts.length > 0 ? (
+      <ul>
+        {posts.slice(0, 3).map(post => (
+          <li>
+            <h3><a href={`/posts/${post.id}/`}>{post.data.title}</a></h3>
+            {post.data.excerpt && <p>{post.data.excerpt}</p>}
+          </li>
+        ))}
+      </ul>
+    ) : <p>暂无文章</p>}
+    <p><a href="/posts/">查看全部文章</a></p>
+  </section>
+
+  <section aria-labelledby="contact-heading">
+    <h2 id="contact-heading">联系我们</h2>
+    {home.contactPrompt && <p>{home.contactPrompt}</p>}
+    <ContactDetails contact={site.contact} />
+    <p><a href="/contact/">查看联系信息</a></p>
+  </section>
+
+  {import.meta.env.DEV && <p><a href="/keystatic">本地内容编辑</a></p>}
 </Layout>

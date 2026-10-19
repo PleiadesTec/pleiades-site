@@ -1,0 +1,28 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { reader, getPosts } from '../../lib/content';
+
+const [site, posts] = await Promise.all([
+  reader.singletons.site.readOrThrow(),
+  getPosts(),
+]);
+---
+
+<Layout title="文章动态" site={site}>
+  <h1>文章动态</h1>
+  {posts.length > 0 ? (
+    <ul>
+      {posts.map(post => {
+        const date = post.data.publishedAt?.toISOString().slice(0, 10);
+        return (
+          <li>
+            <h2><a href={`/posts/${post.id}/`}>{post.data.title}</a></h2>
+            {post.data.cover && <img src={post.data.cover} alt={post.data.title} loading="lazy" />}
+            {post.data.excerpt && <p>{post.data.excerpt}</p>}
+            {date && <time datetime={date}>{date}</time>}
+          </li>
+        );
+      })}
+    </ul>
+  ) : <p>暂无文章</p>}
+</Layout>

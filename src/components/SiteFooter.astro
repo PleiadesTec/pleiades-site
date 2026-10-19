@@ -1,0 +1,18 @@
+---
+import ContactDetails from './ContactDetails.astro';
+import type { SiteSettings } from '../lib/content';
+
+interface Props {
+  site: SiteSettings;
+}
+
+const { site } = Astro.props;
+const year = new Date().getFullYear();
+---
+
+<footer>
+  <ContactDetails contact={site.contact} />
+  <p>© {year} {site.companyName}</p>
+  <p>{site.footer.domain || '域名待购买'}</p>
+  <p>{site.footer.filingNumber || '备案尚未办理'}</p>
+</footer>

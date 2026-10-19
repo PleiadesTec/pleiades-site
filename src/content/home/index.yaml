@@ -1,0 +1,13 @@
+intro: 欢迎了解杭州昴星科技有限公司。具体公司介绍待完善。
+contactPrompt: 欢迎通过电话或邮箱了解相关业务。
+heroSlides:
+  - title: 智能导盲眼镜
+    description: 智能导盲眼镜相关业务介绍待完善。
+    buttonLabel: 了解业务
+    buttonHref: /services/guide-glasses/
+    enabled: true
+  - title: 智慧宫庙
+    description: 智慧宫庙相关业务介绍待完善。
+    buttonLabel: 了解业务
+    buttonHref: /services/smart-temple/
+    enabled: true

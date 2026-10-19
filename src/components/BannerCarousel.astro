@@ -1,0 +1,80 @@
+---
+import type { HomeContent } from '../lib/content';
+
+interface Props {
+  slides: HomeContent['heroSlides'];
+}
+
+const { slides } = Astro.props;
+const enabledSlides = slides.filter(slide => slide.enabled !== false);
+---
+
+{enabledSlides.length > 0 && (
+  <section aria-label="业务展示" data-banner-carousel>
+    <ul>
+      {enabledSlides.map((slide, index) => (
+        <li data-banner-slide>
+          <h2>{slide.title}</h2>
+          {slide.description && <p>{slide.description}</p>}
+          {slide.image && (
+            <img
+              src={slide.image}
+              alt={slide.alt}
+              loading={index === 0 ? 'eager' : 'lazy'}
+            />
+          )}
+          {slide.buttonLabel && slide.buttonHref && (
+            <a href={slide.buttonHref}>{slide.buttonLabel}</a>
+          )}
+        </li>
+      ))}
+    </ul>
+    {enabledSlides.length > 1 && (
+      <>
+        <button type="button" data-carousel-prev hidden>上一项</button>
+        <button type="button" data-carousel-next hidden>下一项</button>
+        <p data-carousel-status aria-live="polite" hidden>
+          第 1 / {enabledSlides.length} 项
+        </p>
+      </>
+    )}
+  </section>
+)}
+
+<script>
+  function initializeCarousel(root: HTMLElement): void {
+    const slides = root.querySelectorAll<HTMLElement>('[data-banner-slide]');
+    if (slides.length < 2) return;
+
+    const previousButton = root.querySelector<HTMLButtonElement>('[data-carousel-prev]');
+    const nextButton = root.querySelector<HTMLButtonElement>('[data-carousel-next]');
+    const status = root.querySelector<HTMLElement>('[data-carousel-status]');
+    if (!previousButton || !nextButton || !status) return;
+
+    let currentIndex = 0;
+
+    const showSlide = (index: number): void => {
+      currentIndex = (index + slides.length) % slides.length;
+      slides.forEach((slide, slideIndex) => {
+        slide.hidden = slideIndex !== currentIndex;
+      });
+      status.textContent = `第 ${currentIndex + 1} / ${slides.length} 项`;
+    };
+
+    previousButton.addEventListener('click', () => {
+      showSlide(currentIndex - 1);
+    });
+    nextButton.addEventListener('click', () => {
+      showSlide(currentIndex + 1);
+    });
+
+    showSlide(0);
+    previousButton.hidden = false;
+    nextButton.hidden = false;
+    status.hidden = false;
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-banner-carousel]').forEach(root => {
+    initializeCarousel(root);
+  });
+</script>

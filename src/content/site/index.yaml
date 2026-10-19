@@ -1,0 +1,20 @@
+companyName: 杭州昴星科技有限公司
+description: 杭州昴星科技有限公司官网，了解智能导盲眼镜、智慧宫庙相关业务与公司动态。
+navigation:
+  - label: 首页
+    href: /
+  - label: 业务与服务
+    href: /services/
+  - label: 关于我们
+    href: /about/
+  - label: 文章动态
+    href: /posts/
+  - label: 联系我们
+    href: /contact/
+contact:
+  phone: '13185098816'
+  email: horonlee@foxmail.com
+  registeredAddress: 浙江省杭州市富阳区银湖街道富闲路222号B幢2层252
+footer:
+  domain: ''
+  filingNumber: ''

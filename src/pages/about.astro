@@ -1,0 +1,16 @@
+---
+import { getEntry, render } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import { reader } from '../lib/content';
+
+const about = await getEntry('pages', 'about');
+if (!about) throw new Error('缺少页面内容：about');
+
+const { Content } = await render(about);
+const site = await reader.singletons.site.readOrThrow();
+---
+
+<Layout title={about.data.title} description={about.data.description} site={site}>
+  <h1>{about.data.title}</h1>
+  <Content />
+</Layout>

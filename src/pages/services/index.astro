@@ -1,0 +1,29 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getServices, reader } from '../../lib/content';
+
+const site = await reader.singletons.site.readOrThrow();
+const services = await getServices();
+---
+
+<Layout title="业务与服务" site={site}>
+  <h1>业务与服务</h1>
+  {services.length > 0 ? (
+    <ul>
+      {services.map(service => (
+        <li>
+          <article>
+            <h2>{service.data.title}</h2>
+            {service.data.summary && <p>{service.data.summary}</p>}
+            {service.data.cover && (
+              <img src={service.data.cover} alt={service.data.title} loading="lazy" />
+            )}
+            <a href={`/services/${service.id}/`}>了解{service.data.title}</a>
+          </article>
+        </li>
+      ))}
+    </ul>
+  ) : (
+    <p>暂无业务内容</p>
+  )}
+</Layout>
