@@ -13,10 +13,14 @@ const posts = await getCollection('posts');
     <p>
       This homepage shows how to load data from Astro's content collections.
     </p>
-    <p>
-      <a href="/keystatic">Click here to visit the Admin UI</a>, or the link
-      below to view a post in the collection.
-    </p>
+    {
+      import.meta.env.DEV && (
+        <p>
+          <a href="/keystatic">Click here to visit the Admin UI</a>
+        </p>
+      )
+    }
+    <p>Select a post below to read it.</p>
     <h2>Posts</h2>
     <ul>
       {
