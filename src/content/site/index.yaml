@@ -12,9 +12,9 @@ navigation:
   - label: 联系我们
     href: /contact/
 contact:
-  phone: '13185098816'
+  phone: "1*********6"
   email: horonlee@foxmail.com
-  registeredAddress: 浙江省杭州市富阳区银湖街道富闲路222号B幢2层252
+  registeredAddress: 浙江省杭州市富阳区银湖街道富闲路222号
 footer:
-  domain: ''
-  filingNumber: ''
+  domain: ""
+  filingNumber: ""
