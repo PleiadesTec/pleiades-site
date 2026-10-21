@@ -1,5 +1,6 @@
 ---
 import type { HomeContent } from '../lib/content';
+import { buttonVariants } from './ui/button';
 
 interface Props {
   slides: HomeContent['heroSlides'];
@@ -10,33 +11,27 @@ const enabledSlides = slides.filter(slide => slide.enabled !== false);
 ---
 
 {enabledSlides.length > 0 && (
-  <section aria-label="业务展示" data-banner-carousel>
-    <ul>
-      {enabledSlides.map((slide, index) => (
-        <li data-banner-slide>
-          <h2>{slide.title}</h2>
-          {slide.description && <p>{slide.description}</p>}
-          {slide.image && (
-            <img
-              src={slide.image}
-              alt={slide.alt}
-              loading={index === 0 ? 'eager' : 'lazy'}
-            />
-          )}
-          {slide.buttonLabel && slide.buttonHref && (
-            <a href={slide.buttonHref}>{slide.buttonLabel}</a>
-          )}
+  <section class="site-container pb-[var(--section-space)]" aria-label="业务展示" data-banner-carousel>
+    <ul class="grid gap-6">
+      {enabledSlides.map(slide => (
+        <li data-banner-slide class:list={['grid min-h-[240px] items-center gap-8 rounded-2xl bg-muted p-6 md:min-h-[336px] md:p-12', { 'md:grid-cols-2': !!slide.image }]}>
+          <div class="min-w-0 max-w-[760px]">
+            <h2>{slide.title}</h2>
+            {slide.description && <p class="mt-5 text-muted-foreground">{slide.description}</p>}
+            {slide.buttonLabel && slide.buttonHref && (
+              <a class={buttonVariants({ className: 'mt-8' })} href={slide.buttonHref}>{slide.buttonLabel}</a>
+            )}
+          </div>
+          {slide.image && <img src={slide.image} alt={slide.alt} width="960" height="600" loading="lazy" class="aspect-[16/10] w-full rounded-2xl object-cover" />}
         </li>
       ))}
     </ul>
     {enabledSlides.length > 1 && (
-      <>
-        <button type="button" data-carousel-prev hidden>上一项</button>
-        <button type="button" data-carousel-next hidden>下一项</button>
-        <p data-carousel-status aria-live="polite" hidden>
-          第 1 / {enabledSlides.length} 项
-        </p>
-      </>
+      <div class="mt-6 flex flex-wrap items-center justify-end gap-3">
+        <button class={buttonVariants({ variant: 'outline' })} type="button" data-carousel-prev hidden>上一项</button>
+        <p class="text-sm text-muted-foreground" data-carousel-status aria-live="polite" hidden>第 1 / {enabledSlides.length} 项</p>
+        <button class={buttonVariants({ variant: 'outline' })} type="button" data-carousel-next hidden>下一项</button>
+      </div>
     )}
   </section>
 )}

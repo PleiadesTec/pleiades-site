@@ -2,6 +2,7 @@
 import { getEntry, render } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import { reader, getPosts } from '../../lib/content';
+import { buttonVariants } from '../../components/ui/button';
 
 export const prerender = true;
 
@@ -21,8 +22,13 @@ export async function getStaticPaths() {
 ---
 
 <Layout title={post.data.title} description={post.data.excerpt} site={site}>
-  <h1>{post.data.title}</h1>
-  {date && <p><time datetime={date}>{date}</time></p>}
-  {post.data.cover && <img src={post.data.cover} alt={post.data.title} loading="lazy" />}
-  <Content />
+  <article class="reading-container page-space">
+    <a class="mb-6 inline-flex min-h-11 items-center text-sm text-muted-foreground underline underline-offset-4" href="/posts/">文章动态</a>
+    <h1>{post.data.title}</h1>
+    {date && <p class="mt-6 text-sm text-muted-foreground"><time datetime={date}>{date}</time></p>}
+    {post.data.excerpt && <p class="mt-6 text-muted-foreground">{post.data.excerpt}</p>}
+    {post.data.cover && <img src={post.data.cover} alt={post.data.title} width="960" height="600" loading="eager" class="mt-10 aspect-[16/10] w-full rounded-2xl object-cover" />}
+    <div class="prose mt-10"><Content /></div>
+    <div class="mt-12 border-t pt-8"><a class={buttonVariants({ variant: 'outline' })} href="/posts/">返回文章动态</a></div>
+  </article>
 </Layout>

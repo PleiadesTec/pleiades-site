@@ -3,6 +3,10 @@ import { getEntry } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 import BannerCarousel from '../components/BannerCarousel.astro';
 import ContactDetails from '../components/ContactDetails.astro';
+import HeroParticles from '../components/HeroParticles';
+import ServiceCard from '../components/ServiceCard.astro';
+import PostCard from '../components/PostCard.astro';
+import { buttonVariants } from '../components/ui/button';
 import { reader, getPosts, getServices } from '../lib/content';
 
 export const prerender = true;
@@ -18,52 +22,58 @@ if (!about) throw new Error('缺少页面内容：about');
 ---
 
 <Layout title={site.companyName} site={site}>
-  <h1>{site.companyName}</h1>
-  {home.intro && <p>{home.intro}</p>}
-  <BannerCarousel slides={home.heroSlides} />
-
-  <section aria-labelledby="services-heading">
-    <h2 id="services-heading">业务与服务</h2>
-    {services.length > 0 ? (
-      <ul>
-        {services.map(service => (
-          <li>
-            <h3><a href={`/services/${service.id}/`}>{service.data.title}</a></h3>
-            {service.data.summary && <p>{service.data.summary}</p>}
-          </li>
-        ))}
-      </ul>
-    ) : <p>暂无业务内容</p>}
-    <p><a href="/services/">查看全部业务</a></p>
+  <section class="brand-hero" aria-labelledby="brand-heading">
+    <HeroParticles client:load />
+    <div class="hero-copy">
+      <h1 id="brand-heading">{site.companyName}</h1>
+      {home.intro && <p class="mx-auto mt-5 max-w-[640px] text-muted-foreground">{home.intro}</p>}
+    </div>
+    <a class="hero-explore" href="#home-content">向下探索<span aria-hidden="true">↓</span></a>
   </section>
 
-  <section aria-labelledby="about-heading">
-    <h2 id="about-heading">关于我们</h2>
-    {about.data.description && <p>{about.data.description}</p>}
-    <p><a href="/about/">了解公司</a></p>
-  </section>
+  <div id="home-content">
+    <BannerCarousel slides={home.heroSlides} />
 
-  <section aria-labelledby="posts-heading">
-    <h2 id="posts-heading">文章动态</h2>
-    {posts.length > 0 ? (
-      <ul>
-        {posts.slice(0, 3).map(post => (
-          <li>
-            <h3><a href={`/posts/${post.id}/`}>{post.data.title}</a></h3>
-            {post.data.excerpt && <p>{post.data.excerpt}</p>}
-          </li>
-        ))}
-      </ul>
-    ) : <p>暂无文章</p>}
-    <p><a href="/posts/">查看全部文章</a></p>
-  </section>
+    <section class="site-container section-space" aria-labelledby="services-heading">
+      <h2 id="services-heading">业务与服务</h2>
+      {services.length > 0 ? (
+        <ul class="mt-10 grid gap-6 md:grid-cols-2 lg:gap-8">
+          {services.map(service => <li class="min-w-0"><ServiceCard service={service} headingLevel="h3" /></li>)}
+        </ul>
+      ) : <p class="mt-10 text-muted-foreground">暂无业务内容</p>}
+      <p class="mt-8"><a class={buttonVariants({ variant: 'outline' })} href="/services/">查看全部业务</a></p>
+    </section>
 
-  <section aria-labelledby="contact-heading">
-    <h2 id="contact-heading">联系我们</h2>
-    {home.contactPrompt && <p>{home.contactPrompt}</p>}
-    <ContactDetails contact={site.contact} />
-    <p><a href="/contact/">查看联系信息</a></p>
-  </section>
+    <section class="section-space bg-muted" aria-labelledby="about-heading">
+      <div class="site-container grid gap-8 md:grid-cols-3">
+        <h2 id="about-heading">关于我们</h2>
+        <div class="min-w-0 md:col-span-2">
+          {about.data.description && <p class="max-w-[760px] text-muted-foreground">{about.data.description}</p>}
+          <p class="mt-8"><a class={buttonVariants({ variant: 'outline' })} href="/about/">了解公司</a></p>
+        </div>
+      </div>
+    </section>
 
-  {import.meta.env.DEV && <p><a href="/keystatic">本地内容编辑</a></p>}
+    <section class="site-container section-space" aria-labelledby="posts-heading">
+      <h2 id="posts-heading">文章动态</h2>
+      {posts.length > 0 ? (
+        <ul class="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+          {posts.slice(0, 3).map(post => <li class="min-w-0"><PostCard post={post} headingLevel="h3" /></li>)}
+        </ul>
+      ) : <p class="mt-10 text-muted-foreground">暂无文章</p>}
+      <p class="mt-8"><a class={buttonVariants({ variant: 'outline' })} href="/posts/">查看全部文章</a></p>
+    </section>
+
+    <section class="site-container section-space border-t" aria-labelledby="contact-heading">
+      <div class="grid gap-8 md:grid-cols-3">
+        <div class="min-w-0">
+          <h2 id="contact-heading">联系我们</h2>
+          {home.contactPrompt && <p class="mt-5 text-muted-foreground">{home.contactPrompt}</p>}
+          <p class="mt-8"><a class={buttonVariants({ variant: 'outline' })} href="/contact/">查看联系信息</a></p>
+        </div>
+        <div class="min-w-0 md:col-span-2"><ContactDetails contact={site.contact} /></div>
+      </div>
+    </section>
+    {import.meta.env.DEV && <p class="site-container pb-8 text-sm text-muted-foreground"><a class="inline-flex min-h-11 items-center underline underline-offset-4" href="/keystatic">本地内容编辑</a></p>}
+  </div>
 </Layout>

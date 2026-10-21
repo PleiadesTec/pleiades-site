@@ -1,6 +1,6 @@
 # 杭州昴星科技有限公司官网
 
-Astro 纯静态站点，使用 Keystatic 在本地编辑内容。当前页面保留语义化 HTML、基础模块和原生 Banner 切换，已接入公司 Logo 与站点图标，尚未进行整站视觉设计。
+Astro 纯静态站点，使用 Keystatic 在本地编辑内容。整站采用 Tailwind CSS v4、按需 shadcn/ui 和系统明暗主题；首页使用可暂停的 React Bits Particles 品牌首屏，业务 Banner 独立展示在首屏下方。
 
 ## 本地运行
 
@@ -33,9 +33,17 @@ Banner 内容由首页单例管理，按列表顺序展示，可启用/停用，
 
 ## 品牌资源
 
-共享页头使用 `public/images/site/pleiades-wordmark.svg`，默认显示为 250×64，窄屏按比例缩放；仍可在 Keystatic「站点设置」中更换 Logo，替代文字沿用中文公司名称。
+共享页头使用 `public/images/site/pleiades-wordmark.svg`，桌面宽 250px、手机宽 240px，保持原始比例；仍可在 Keystatic「站点设置」中更换 Logo，替代文字沿用中文公司名称。
 
-站点图标使用 `public/favicon.svg`、`public/favicon.ico` 和 `public/apple-touch-icon.png`；`public/site.webmanifest` 引用应用图标 `public/icon-192.png`、`public/icon-512.png`、`public/maskable-512.png`。主题色为深蓝 `#17374E`，仅接入静态资源，不添加 PWA 安装脚本。正式 Logo 主稿、导出资源及使用规范位于 `design/brand/`。
+站点图标使用 `public/favicon.svg`、`public/favicon.ico` 和 `public/apple-touch-icon.png`；`public/site.webmanifest` 引用应用图标 `public/icon-192.png`、`public/icon-512.png`、`public/maskable-512.png`。浏览器页面主题色随系统为白色 `#FFFFFF` 或深色 `#07121A`，manifest 安装主题保留深蓝 `#17374E`，没有 PWA 安装脚本。正式 Logo 主稿、导出资源及使用规范位于 `design/brand/`。
+
+## 视觉与交互维护
+
+- `src/styles.css` 是唯一主题入口：语义颜色、字体、容器、正文和粒子舞台样式集中于此。明暗仅通过 `prefers-color-scheme` 切换，无手动开关或持久化主题状态。Tailwind 显式扫描 `src/`，组件配置及路径别名见 `components.json`、`tsconfig.json`。
+- `src/components/ui/` 只引入 Button、Sheet；静态页面复用 `buttonVariants`，不为普通链接水合。`ServiceCard.astro`、`PostCard.astro` 共用于首页和列表页，无封面时不生成空媒体框。
+- `HeroParticles.tsx` 管理系统偏好、手机简化、DPR 上限与当前页暂停；原始引擎位于 `src/components/react-bits/Particles.tsx`，文件顶部保留 React Bits 来源。只在首页加载，离屏和后台停止调度；减少动态时显示静态画面，WebGL2 或 JavaScript 不可用时保留可读文字和真实入口。
+- 手机导航由 `MobileMenu.tsx` 渐进增强：原生 details 提供无 JS/慢 JS 导航，水合后使用 Radix Sheet，支持 Escape、焦点约束和返回；桌面导航为普通链接。
+- 首屏公司名与介绍沿用站点设置及首页 `intro`；不随 Banner 改变。图片继续使用已有编辑器字段，卡片/Banner/详情封面预留 16:10，正文图片保持自身比例。
 
 ## 构建与发布
 

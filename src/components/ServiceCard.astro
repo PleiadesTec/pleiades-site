@@ -1,0 +1,20 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  service: CollectionEntry<'services'>;
+  headingLevel: 'h2' | 'h3';
+}
+
+const { service, headingLevel: Heading } = Astro.props;
+---
+
+<article class="content-card flex flex-col gap-3">
+  {service.data.cover && (
+    <img src={service.data.cover} alt={service.data.title} width="960" height="600" loading="lazy" class="mb-3 aspect-[16/10] w-full rounded-2xl object-cover" />
+  )}
+  <Heading class="card-title">
+    <a href={`/services/${service.id}/`}>{service.data.title}</a>
+  </Heading>
+  {service.data.summary && <p class="text-muted-foreground">{service.data.summary}</p>}
+</article>

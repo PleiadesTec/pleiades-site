@@ -12,7 +12,11 @@ const site = await reader.singletons.site.readOrThrow();
 ---
 
 <Layout title={contact.data.title} description={contact.data.description} site={site}>
-  <h1>{contact.data.title}</h1>
-  <Content />
-  <ContactDetails contact={site.contact} />
+  <div class="site-container page-space">
+    <h1>{contact.data.title}</h1>
+    <div class="mt-10 grid gap-8 md:grid-cols-5">
+      <div class="prose min-w-0 md:col-span-2"><Content /></div>
+      <div class="min-w-0 border-t pt-6 md:col-span-3"><ContactDetails contact={site.contact} /></div>
+    </div>
+  </div>
 </Layout>

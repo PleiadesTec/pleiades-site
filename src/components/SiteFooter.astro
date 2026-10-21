@@ -10,9 +10,23 @@ const { site } = Astro.props;
 const year = new Date().getFullYear();
 ---
 
-<footer>
-  <ContactDetails contact={site.contact} />
-  <p>© {year} {site.companyName}</p>
-  <p>{site.footer.domain || '域名待购买'}</p>
-  <p>{site.footer.filingNumber || '备案尚未办理'}</p>
+<footer class="site-footer shrink-0 bg-muted pt-12 pb-6 md:pt-16">
+  <div class="site-container">
+    <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-12">
+      <div class="min-w-0 lg:col-span-4">
+        <p class="font-semibold">{site.companyName}</p>
+        <p class="mt-3 text-sm text-muted-foreground">© {year} {site.companyName}</p>
+      </div>
+      <div class="min-w-0 lg:col-span-5"><ContactDetails contact={site.contact} /></div>
+      {site.navigation.length > 0 && <nav aria-label="页脚导航" class="md:col-span-2 lg:col-span-3">
+        <ul class="flex flex-wrap gap-x-6 gap-y-2 text-sm">
+          {site.navigation.map(item => <li><a href={item.href} class="inline-flex min-h-11 min-w-11 items-center hover:underline">{item.label}</a></li>)}
+        </ul>
+      </nav>}
+    </div>
+    <div class="mt-8 flex flex-wrap gap-x-8 gap-y-2 border-t pt-6 text-sm text-muted-foreground">
+      <p>{site.footer.domain || '域名待购买'}</p>
+      <p>{site.footer.filingNumber || '备案尚未办理'}</p>
+    </div>
+  </div>
 </footer>

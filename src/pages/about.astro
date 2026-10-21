@@ -11,6 +11,8 @@ const site = await reader.singletons.site.readOrThrow();
 ---
 
 <Layout title={about.data.title} description={about.data.description} site={site}>
-  <h1>{about.data.title}</h1>
-  <Content />
+  <article class="reading-container page-space">
+    <h1>{about.data.title}</h1>
+    <div class="prose mt-10"><Content /></div>
+  </article>
 </Layout>

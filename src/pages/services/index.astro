@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ServiceCard from '../../components/ServiceCard.astro';
 import { getServices, reader } from '../../lib/content';
 
 const site = await reader.singletons.site.readOrThrow();
@@ -7,23 +8,12 @@ const services = await getServices();
 ---
 
 <Layout title="业务与服务" site={site}>
-  <h1>业务与服务</h1>
-  {services.length > 0 ? (
-    <ul>
-      {services.map(service => (
-        <li>
-          <article>
-            <h2>{service.data.title}</h2>
-            {service.data.summary && <p>{service.data.summary}</p>}
-            {service.data.cover && (
-              <img src={service.data.cover} alt={service.data.title} loading="lazy" />
-            )}
-            <a href={`/services/${service.id}/`}>了解{service.data.title}</a>
-          </article>
-        </li>
-      ))}
-    </ul>
-  ) : (
-    <p>暂无业务内容</p>
-  )}
+  <div class="site-container page-space">
+    <h1>业务与服务</h1>
+    {services.length > 0 ? (
+      <ul class="mt-10 grid gap-6 md:grid-cols-2 lg:gap-8">
+        {services.map(service => <li class="min-w-0"><ServiceCard service={service} headingLevel="h2" /></li>)}
+      </ul>
+    ) : <p class="mt-10 text-muted-foreground">暂无业务内容</p>}
+  </div>
 </Layout>

@@ -8,11 +8,17 @@ interface Props {
 const { contact } = Astro.props;
 ---
 
-<dl>
-  <dt>联系电话</dt>
-  <dd><a href={`tel:${contact.phone}`}>{contact.phone}</a></dd>
-  <dt>联系邮箱</dt>
-  <dd><a href={`mailto:${contact.email}`}>{contact.email}</a></dd>
-  <dt>注册地址</dt>
-  <dd>{contact.registeredAddress || '注册地址待完善'}</dd>
+<dl class="contact-details grid gap-6">
+  <div>
+    <dt class="text-sm text-muted-foreground">联系电话</dt>
+    <dd class="mt-1 text-[17px]"><a class="inline-flex min-h-11 items-center hover:underline" href={`tel:${contact.phone}`}>{contact.phone}</a></dd>
+  </div>
+  <div>
+    <dt class="text-sm text-muted-foreground">联系邮箱</dt>
+    <dd class="mt-1 text-[17px]"><a class="inline-flex min-h-11 items-center hover:underline" href={`mailto:${contact.email}`}>{contact.email}</a></dd>
+  </div>
+  <div>
+    <dt class="text-sm text-muted-foreground">注册地址</dt>
+    <dd class="mt-1 text-[17px]">{contact.registeredAddress || '注册地址待完善'}</dd>
+  </div>
 </dl>

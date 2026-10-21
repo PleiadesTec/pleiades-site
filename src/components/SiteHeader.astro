@@ -1,20 +1,32 @@
 ---
 import type { SiteSettings } from '../lib/content';
+import MobileMenu from './MobileMenu';
 
 interface Props {
   site: SiteSettings;
 }
 
 const { site } = Astro.props;
+const pathname = Astro.url.pathname.replace(/\/+$/, '') || '/';
+const links = site.navigation.map(item => {
+  const href = item.href.replace(/\/+$/, '') || '/';
+  const isCurrent = pathname === href;
+  return { ...item, isCurrent, isActive: isCurrent || (href !== '/' && pathname.startsWith(`${href}/`)) };
+});
 ---
 
-<header>
-  <a href="/">
-    {site.logo ? <img src={site.logo} alt={site.companyName} width="250" height="64" style="max-width: 100%; height: auto;" /> : site.companyName}
-  </a>
-  <nav aria-label="主导航">
-    <ul>
-      {site.navigation.map(item => <li><a href={item.href}>{item.label}</a></li>)}
-    </ul>
-  </nav>
+<header class="site-header sticky top-0 z-40 shrink-0 border-b">
+  <div class="site-container flex h-full items-center justify-between gap-4">
+    <a href="/" class="site-logo block min-w-0 shrink-0">
+      {site.logo ? <img src={site.logo} alt={site.companyName} width="250" height="64" class="w-full" /> : <span class="block text-lg font-semibold">{site.companyName}</span>}
+    </a>
+    {links.length > 0 && <>
+      <nav aria-label="主导航" data-desktop-navigation class="hidden md:block">
+        <ul class="flex items-center gap-6 text-[15px] font-medium">
+          {links.map(item => <li><a href={item.href} aria-current={item.isCurrent ? 'page' : undefined} data-active={item.isActive} class="navigation-link flex min-h-11 min-w-11 items-center justify-center">{item.label}</a></li>)}
+        </ul>
+      </nav>
+      <div class="md:hidden"><MobileMenu links={links} client:media="(width < 48rem)" /></div>
+    </>}
+  </div>
 </header>

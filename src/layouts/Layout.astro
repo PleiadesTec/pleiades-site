@@ -2,6 +2,7 @@
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import type { SiteSettings } from '../lib/content';
+import '../styles.css';
 
 export interface Props {
   title: string;
@@ -18,18 +19,20 @@ const pageTitle = title === site.companyName ? title : `${title} | ${site.compan
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content={description || site.description} />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
-    <meta name="theme-color" content="#17374E" />
+    <meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#07121A" media="(prefers-color-scheme: dark)" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
     <link rel="manifest" href="/site.webmanifest" />
     <title>{pageTitle}</title>
   </head>
-  <body>
+  <body class="flex min-h-dvh flex-col">
+    <a class="skip-link" href="#main-content">跳到正文</a>
     <SiteHeader site={site} />
-    <main id="main-content"><slot /></main>
+    <main id="main-content" tabindex="-1" class="min-w-0 flex-1"><slot /></main>
     <SiteFooter site={site} />
   </body>
 </html>
