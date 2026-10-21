@@ -1,0 +1,43 @@
+{
+  "brand": "Pleiades",
+  "tagline": "杭州昴星科技有限公司",
+  "brief": "年轻科技团队，以前沿、活泼、接纳为品牌气质。主标采用已确认的淡蓝软雕塑字形，保留 le 连字、上扬的 e 切面与缩短的 p 字尾。应用画面仅展示标志使用方式，不代表已生产的实物或已发布的产品。",
+  "adjectives": ["前沿", "活泼", "接纳", "年轻"],
+  "criteria": "保持英文名称可读；字标、独立图形、单色与反白均可使用；官网优先使用字标，16–32 px 使用专用小尺寸图形。",
+  "industry": "services",
+  "mockups": ["website", "app-icon", "signage", "sticker", "box", "tshirt"],
+  "nav": ["业务与服务", "关于我们", "文章动态", "联系我们"],
+  "brand_color": "#86C6EF",
+  "tile_color": "#17374E",
+  "greyscale": false,
+  "final": true,
+  "deck_title": "品牌标志定稿",
+  "label": "已选定稿",
+  "concepts": [
+    {
+      "name": "软雕塑字标 · 短字尾版",
+      "symbol": "../pleiades-symbol.svg",
+      "avatar": "../web/favicon.svg",
+      "lockup": "../pleiades-wordmark.svg",
+      "stacked": "../pleiades-stacked.svg",
+      "symbol_on_tile": "../pleiades-symbol.svg",
+      "symbol_on_dark": "../pleiades-symbol.svg",
+      "lockup_on_tile": "../pleiades-wordmark.svg",
+      "lockup_on_dark": "../pleiades-wordmark.svg",
+      "stacked_on_tile": "../pleiades-stacked.svg",
+      "stacked_on_dark": "../pleiades-stacked.svg",
+      "idea": "让英文名称成为识别重点，以饱满曲面和上扬切面形成轻快的字形节奏。",
+      "rationale": [
+        "保留用户确认的字形、字距和淡蓝色，p 的短字尾不再延伸至 l 下方。",
+        "所有标志字形均为自绘矢量路径，不依赖系统字体。",
+        "小尺寸图形单独调整字腔；深色衬底提高淡蓝图标的辨识度。"
+      ]
+    }
+  ],
+  "recommendation": "后续统一使用 design/brand/ 内的正式资产；design/logo-concepts/ 仅保留设计过程。",
+  "next_steps": [
+    "网页与数字展示使用 SVG，常规文档可使用透明 PNG。",
+    "小号文字不使用淡蓝配白底；必要时选择黑色版或深蓝衬底。",
+    "正式商标使用前进行专业近似检索；印刷前按纸张、油墨和色彩配置打样。"
+  ]
+}

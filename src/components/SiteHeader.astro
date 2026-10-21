@@ -10,7 +10,7 @@ const { site } = Astro.props;
 
 <header>
   <a href="/">
-    {site.logo ? <img src={site.logo} alt={site.companyName} /> : site.companyName}
+    {site.logo ? <img src={site.logo} alt={site.companyName} width="250" height="64" style="max-width: 100%; height: auto;" /> : site.companyName}
   </a>
   <nav aria-label="主导航">
     <ul>

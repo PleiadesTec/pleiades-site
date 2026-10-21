@@ -1,5 +1,6 @@
 companyName: 杭州昴星科技有限公司
 description: 杭州昴星科技有限公司官网，了解智能导盲眼镜、智慧宫庙相关业务与公司动态。
+logo: /images/site/pleiades-wordmark.svg
 navigation:
   - label: 首页
     href: /

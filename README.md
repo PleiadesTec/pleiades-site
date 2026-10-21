@@ -1,6 +1,6 @@
 # 杭州昴星科技有限公司官网
 
-Astro 纯静态站点，使用 Keystatic 在本地编辑内容。当前只提供语义化 HTML、基础模块和原生 Banner 切换，不包含样式或美术设计。
+Astro 纯静态站点，使用 Keystatic 在本地编辑内容。当前页面保留语义化 HTML、基础模块和原生 Banner 切换，已接入公司 Logo 与站点图标，尚未进行整站视觉设计。
 
 ## 本地运行
 
@@ -30,6 +30,12 @@ Banner 内容由首页单例管理，按列表顺序展示，可启用/停用，
 文章按发布日期降序排列，未填写日期的排在有日期的文章之后，同日或都未填写日期时按 Slug 升序。旧文章无需补日期；页面统一显示 `YYYY-MM-DD`。
 
 上传图片写入 `public/images/site`、`banners`、`services`、`pages`、`posts` 对应目录，内容引用 `/images/...`，生产构建原样发布。图片与内容文件一起纳入版本控制。站点设置中的地址明确表示注册地址；域名和备案号未填写时，页脚分别显示“域名待购买”和“备案尚未办理”，不生成占位外链。
+
+## 品牌资源
+
+共享页头使用 `public/images/site/pleiades-wordmark.svg`，默认显示为 250×64，窄屏按比例缩放；仍可在 Keystatic「站点设置」中更换 Logo，替代文字沿用中文公司名称。
+
+站点图标使用 `public/favicon.svg`、`public/favicon.ico` 和 `public/apple-touch-icon.png`；`public/site.webmanifest` 引用应用图标 `public/icon-192.png`、`public/icon-512.png`、`public/maskable-512.png`。主题色为深蓝 `#17374E`，仅接入静态资源，不添加 PWA 安装脚本。正式 Logo 主稿、导出资源及使用规范位于 `design/brand/`。
 
 ## 构建与发布
 
